@@ -15,5 +15,5 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          name: Unity_v2019.4.12f1.alf
           path: ${{ steps.getManualLicenseFile.outputs.filePath }}
