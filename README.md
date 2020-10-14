@@ -1,6 +1,6 @@
 # VR Client
 
-![Build project](https://github.com/University-of-Kent-VR-Transport/vr-client/workflows/Build%20project/badge.svg)
+![Tests](https://github.com/University-of-Kent-VR-Transport/vr-client/workflows/Build%20project/badge.svg)
 
 ## About
 
