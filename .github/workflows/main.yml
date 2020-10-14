@@ -33,7 +33,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
-          customParameters: -enableCodeCoverage -coverageResultsPath ${{ matrix.testMode }}-artifacts -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport;assemblyFilters:+Assembly-CSharp
+          customParameters: -enableCodeCoverage -coverageResultsPath /github/workspace/${{ matrix.testMode }}-artifacts/coverage.xml -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport;assemblyFilters:+Assembly-CSharp
       - uses: actions/upload-artifact@v2
         with:
           name: Test results for ${{ matrix.testMode }}
