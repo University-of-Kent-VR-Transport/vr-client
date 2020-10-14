@@ -8,12 +8,16 @@ namespace Tests
 {
 	public class HelloWorldTest
 	{
-		[Test]
-		public void testAdd()
+		[UnityTest]
+		public IEnumerator testAdd()
 		{
-			var helloWorld = new HelloWorld();
+			var gameObject = new GameObject();
+			var helloWorld = gameObject.AddComponent<HelloWorld>();
 			
 			var output = helloWorld.add(1, 2);
+			
+			yield return null;
+
 			Assert.AreEqual(3, output);
 		}
 	}
