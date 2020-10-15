@@ -2,9 +2,6 @@ name: Build project
 
 on: [push]
 
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-
 jobs:
   testAllModes:
     name: Test in ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
@@ -32,6 +29,10 @@ jobs:
       # Tests
       - uses: webbertakken/unity-test-runner@v1.6
         id: tests
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           unityVersion: ${{ matrix.unityVersion }}
           customParameters: -enableCodeCoverage
