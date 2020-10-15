@@ -18,23 +18,30 @@ jobs:
           - playmode
           - editmode
     steps:
+      # Checkout
       - uses: actions/checkout@v2.3.3
         with:
           lfs: true
+      
+      # Cache
       - uses: actions/cache@v2.1.2
         with:
           path: /Library
-          key: Library-
-          restore-keys: |
-            Library-
+          key: Library
+
+      # Tests
       - uses: webbertakken/unity-test-runner@v1.7
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
-          customParameters: -enableCodeCoverage -coverageResultsPath ${{ matrix.testMode }}-artifacts/coverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport;assemblyFilters:+Assembly-CSharp
+          customParameters: -enableCodeCoverage -coverageResultsPath ${{ matrix.testMode }}-coverage
+
+      # Upload output
       - uses: actions/upload-artifact@v2
         with:
           name: Test results for ${{ matrix.testMode }}
-          path: ${{ steps.tests.outputs.artifactsPath }}
+          path: |
+            ${{ steps.tests.outputs.artifactsPath }}
+            ${{ matrix.testMode }}-coverage
