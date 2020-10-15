@@ -30,7 +30,7 @@ jobs:
           key: Library
 
       # Tests
-      - uses: webbertakken/unity-test-runner@v1.7
+      - uses: webbertakken/unity-test-runner@v1.6
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
