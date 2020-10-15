@@ -15,7 +15,7 @@ jobs:
         unityVersion:
           - 2019.4.12f1-update-2020-10-08
         testMode:
-          - playmode
+          ## - playmode
           - editmode
     steps:
       # Checkout
@@ -34,7 +34,6 @@ jobs:
         id: tests
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          testMode: ${{ matrix.testMode }}
           customParameters: -enableCodeCoverage
 
       # Upload test results
