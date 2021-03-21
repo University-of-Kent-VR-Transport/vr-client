@@ -60,31 +60,8 @@ public class BusController : MonoBehaviour
 			if (webRequest.isDone)
 			{
 				EndpointResponse response = JsonUtility.FromJson<EndpointResponse>(webRequest.downloadHandler.text);
-				
-				var newBuses = response.Buses;
-				var currentBusIDs = clones.Keys.ToList();
-				
-				var busIDsToRemove = getBusesIDsToRemove(currentBusIDs, newBuses);
-				foreach (string busID in busIDsToRemove)
-				{
-					setBusColour(clones[busID], Color.red);
-				}
-				
-				var busIDsToUpdate = getBusesIDsToUpdate(currentBusIDs, newBuses);
-				foreach (string busID in busIDsToUpdate)
-				{
-					// var position = new Vector3(response.Buses[busID].Location.Longitude, 0, newBuses[busID].Location.Latitude);
-					// var rotation = Quaternion.Euler(0, newBuses[busID].Bearing, 0);
-					setBusColour(clones[busID], Color.green);
-				}
 
-				var busIDsToCreate = getBusesIDsToCreate(currentBusIDs, newBuses);
-				foreach (string busID in busIDsToCreate)
-				{
-					// var bus = instantiateBus(busID, newBuses[busID].Location.Longitude, newBuses[busID].Location.Latitude, newBuses[busID].Bearing);
-						
-					// clones[busID] = bus;
-				}
+                updateBusLocations(response.Buses);
 			}
 		}
 
@@ -97,63 +74,64 @@ public class BusController : MonoBehaviour
 		return "/api/get-bus-locations?topLeft=" + maxLongitude + "," + minLatitude + "&bottomRight=" + maxLatitude + "," + maxLongitude;
 	}
 
-	private List<string> getBusesIDsToCreate(List<string> currentBusIDs, Bus[] newBuses)
-	{
-		var busIDsToCreate = new List<string>();
+    private void updateBusLocations(Bus[] updatedBuses)
+    {
+        var busIDsToRemove = new List<string>(clones.Keys.ToList());
 
-		foreach (Bus bus in newBuses)
-		{
-			if (!currentBusIDs.Contains(bus.ID))
-			{
-				busIDsToCreate.Add(bus.ID);
-			}
-		}
+        foreach (Bus bus in updatedBuses)
+        {
+            if (!busIDsToRemove.Contains(bus.ID))
+            {
+                // create
+                var newBus = createBus(bus);
+                clones[bus.ID] = newBus;
+            }
+            else
+            {
+                // update
+                busIDsToRemove.Remove(bus.ID);
 
-		return busIDsToCreate;
-	}
+                updateBus(bus);
+            }
+        }
 
-	private List<string> getBusesIDsToUpdate(List<string> currentBusIDs, Bus[] newBuses)
-	{
-		var busIDsToUpdate = new List<string>();
+        foreach (string busID in busIDsToRemove)
+        {
+            removeBus(busID);
+        }
+    }
 
-		foreach (Bus bus in newBuses)
-		{
-			if (currentBusIDs.Contains(bus.ID))
-			{
-				busIDsToUpdate.Add(bus.ID);
-			}
-		}
+    private GameObject createBus(Bus bus)
+    {
+        var position = new Vector3(bus.Location.Longitude, 0, bus.Location.Latitude);
+        var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
-		return busIDsToUpdate;
-	}
+        var newBusInstance = Instantiate(busPrefab, position, rotation, this.GetComponent<Transform>());
 
-	private List<string> getBusesIDsToRemove(List<string> currentBusIDs, Bus[] newBuses)
-	{
-		var busIDsToRemove = new List<string>(currentBusIDs);
+        setBusColour(newBusInstance, Color.cyan);
+        newBusInstance.name = bus.ID;
 
-		foreach (Bus bus in newBuses)
-		{
-			if (currentBusIDs.Contains(bus.ID))
-			{
-				busIDsToRemove.Remove(bus.ID);
-			}
-		}
+        return newBusInstance;
+    }
 
-		return busIDsToRemove;
-	}
+    private void updateBus(Bus bus)
+    {
+        var position = new Vector3(bus.Location.Longitude, 0f, bus.Location.Latitude);
+        var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
-	private GameObject instantiateBus(string busID, float longitude, float latitude, float bearing)
-	{
-		var position = new Vector3(longitude, 0, latitude);
-		var rotation = Quaternion.Euler(0, bearing, 0);
-		
-		var bus = Instantiate(busPrefab, position, rotation, this.GetComponent<Transform>());
-		
-		setBusColour(bus, Color.cyan);
-		bus.name = busID;
+        // TODO: pass the new location to the bus to set as the next way point with a final bearing
+        setBusColour(clones[bus.ID], Color.green);
+    }
 
-		return bus;
-	}
+    private void removeBus(string busID)
+    {
+        // TODO: particle effect to show left?
+
+        setBusColour(clones[busID], Color.red);
+        Destroy(clones[busID], 1);
+        clones.Remove(busID);
+    }
+
 	private void setBusColour(GameObject bus, Color colour)
 	{
 		var busRenderer = bus.GetComponent<Renderer>();
