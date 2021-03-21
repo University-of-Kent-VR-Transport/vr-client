@@ -1,5 +1,8 @@
 # VR Client
 
+![Test Suite](https://github.com/University-of-Kent-VR-Transport/vr-client/workflows/Test%20Suite/badge.svg)
+[![codecov](https://codecov.io/gh/University-of-Kent-VR-Transport/vr-client/branch/master/graph/badge.svg?token=Y39H9MV6Y0)](https://codecov.io/gh/University-of-Kent-VR-Transport/vr-client)
+
 ## About
 
 This is a final year group project for the module [CO600 at the University of Kent](https://www.kent.ac.uk/courses/modules/module/CO600). The project uses virtual reality to show realtime bus locations in selected areas.
