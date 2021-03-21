@@ -1,6 +1,6 @@
 [System.Serializable]
 public class BusLocation
 {
-	public string Longitude;
+	public float Longitude;
 	public float Latitude;
 }
