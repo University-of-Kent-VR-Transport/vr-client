@@ -71,7 +71,7 @@ public class BusController : MonoBehaviour
 	
 	private string buildRequestURI()
 	{
-		return "/api/get-bus-locations?topLeft=" + maxLongitude + "," + minLatitude + "&bottomRight=" + maxLatitude + "," + maxLongitude;
+		return "/api/get-bus-locations?topLeft=" + minLongitude + "," + maxLatitude + "&bottomRight=" + maxLongitude + "," + minLatitude;
 	}
 
 	private void updateBusLocations(Bus[] updatedBuses)
