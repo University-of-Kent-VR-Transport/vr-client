@@ -21,39 +21,42 @@ public class BusController : MonoBehaviour
 		maxLongitude = initialMaxLongitude;
 		minLatitude = initialMinLatitude;
 		minLongitude = initialMinLongitude;
-
-		var requestURI = buildRequestURI();
-		StartCoroutine(GetRequest(requestURI));
 	}
 
-	public void setMaxLatitude(float latitude)
+	public void SetMaxLatitude(float latitude)
 	{
 		maxLatitude = latitude;
 	}
 
-	public void setMaxLongitude(float longitude)
+	public void SetMaxLongitude(float longitude)
 	{
 		maxLongitude = longitude;
 	}
 	
-	public void setMinLatitude(float latitude)
+	public void SetMinLatitude(float latitude)
 	{
 		minLongitude = latitude;
 	}
 	
-	public void setMinLongitude(float longitude)
+	public void SetMinLongitude(float longitude)
 	{
 		minLongitude = longitude;
 	}
 
-	private IEnumerator GetRequest(string uri)
+    public void UpdateBuses()
+    {
+        StartCoroutine(getNewBusLocations());
+    }
+
+	private IEnumerator getNewBusLocations()
 	{
+        var uri = buildRequestURI();
 		UnityWebRequest webRequest = UnityWebRequest.Get(host + uri);
 		yield return webRequest.SendWebRequest();
 
 		if (webRequest.isNetworkError || webRequest.isHttpError)
 		{
-			Debug.Log("Error While Sending: " + webRequest.error);
+			Debug.Log("Error While Sending: " + webRequest.error + ". URI: " + uri);
 		}
 		else
 		{
@@ -64,9 +67,6 @@ public class BusController : MonoBehaviour
 				updateBusLocations(response.Buses);
 			}
 		}
-
-		yield return new WaitForSeconds(5);
-		StartCoroutine(GetRequest(buildRequestURI()));
 	}
 	
 	private string buildRequestURI()
@@ -91,7 +91,7 @@ public class BusController : MonoBehaviour
 				// update
 				busIDsToRemove.Remove(bus.ID);
 
-				updateBus(bus);
+				updateBus(bus, clones[bus.ID]);
 			}
 		}
 
@@ -114,13 +114,14 @@ public class BusController : MonoBehaviour
 		return newBusInstance;
 	}
 
-	private void updateBus(Bus bus)
+	private void updateBus(Bus bus, GameObject busObject)
 	{
 		var position = new Vector3(bus.Location.Longitude, 0f, bus.Location.Latitude);
 		var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
 		// TODO: pass the new location to the bus to set as the next way point with a final bearing
 		setBusColour(clones[bus.ID], Color.green);
+        busObject.GetComponent<Transform>().SetPositionAndRotation(position, rotation);
 	}
 
 	private void removeBus(string busID)
