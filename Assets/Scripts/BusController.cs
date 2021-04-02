@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using UnityEngine.AI;
 
 public class BusController : MonoBehaviour
 {
@@ -121,7 +122,8 @@ public class BusController : MonoBehaviour
 
 		// TODO: pass the new location to the bus to set as the next way point with a final bearing
 		setBusColour(clones[bus.ID], Color.green);
-        busObject.GetComponent<Transform>().SetPositionAndRotation(position, rotation);
+        busObject.GetComponent<NavMeshAgent>().SetDestination(position);
+        // busObject.GetComponent<Transform>().SetPositionAndRotation(position, rotation);
 	}
 
 	private void removeBus(string busID)
