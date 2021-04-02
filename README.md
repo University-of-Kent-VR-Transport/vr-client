@@ -19,7 +19,7 @@ You'll need to install the following software:
 ```
 Git v^2.0.0
 Git Large File Storage (LFS) v^2.0.0
-Unity v2019.4.11f1
+Unity v2019.4.12f1
 ```
 
 ### Installation
