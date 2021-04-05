@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/2dMenu.unity
+    guid: 395a487f2059c7d4a937b1abbef9f311
+  - enabled: 1
+    path: Assets/Scenes/BusVR.unity
+    guid: 633169df5b3b2db418bdc68cf8fa05fb
   m_configObjects: {}
