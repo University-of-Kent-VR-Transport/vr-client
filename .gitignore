@@ -72,3 +72,4 @@ crashlytics-build.properties
 
 # JetBrains Personal Config
 .idea
+Assets/Resources/Mapbox/MapboxConfiguration.txt
