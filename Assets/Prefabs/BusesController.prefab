@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 394771051895193019}
   - component: {fileID: 394771051895193016}
   m_Layer: 0
-  m_Name: BusController
+  m_Name: BusesController
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   host: https://bus.henrybrown0.com
-  busPrefab: {fileID: 5563856005057949018, guid: 69964a8fe78efd0f584bc0a0a325bde9,
+  busPrefab: {fileID: 2699133906078399320, guid: a1754348e044ddd47acb6be4f0ac9643,
     type: 3}
-  initalMaxLatitude: 51.304432
-  initalMaxLongitude: 1.132107
-  initalMinLatitude: 51.252674
-  initalMinLongitude: 1.026363
+  initialMaxLatitude: 0
+  initialMaxLongitude: 0
+  initialMinLatitude: 0
+  initialMinLongitude: 0
