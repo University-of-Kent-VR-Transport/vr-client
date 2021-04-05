@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using Mapbox.Unity.Map;
+using Mapbox.Unity.Utilities;
+using Mapbox.Utils;
 
 public class BusController : MonoBehaviour
 {
+    [SerializeField]
+    AbstractMap _map;
+
 	public string host;
 	public GameObject busPrefab;
 	public float initialMaxLatitude, initialMaxLongitude, initialMinLatitude, initialMinLongitude;
@@ -103,10 +109,10 @@ public class BusController : MonoBehaviour
 
 	private GameObject createBus(Bus bus)
 	{
-		var position = new Vector3(bus.Location.Longitude, 0, bus.Location.Latitude);
+        var position = Conversions.GeoToWorldPosition(bus.Location.Latitude, bus.Location.Longitude, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz();
 		var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
-		var newBusInstance = Instantiate(busPrefab, position, rotation, this.GetComponent<Transform>());
+        var newBusInstance = Instantiate(busPrefab, position, rotation, this.GetComponent<Transform>());
 
 		setBusColour(newBusInstance, Color.cyan);
 		newBusInstance.name = bus.ID;
