@@ -22,12 +22,26 @@ Git Large File Storage (LFS) v^2.0.0
 Unity v2019.4.12f1
 ```
 
+#### Required Secrets
+
+Mapbox needs a `MapboxConfiguration.txt` file located in
+`/Assets/Resources/Mapbox`. The file should contain the following fields:
+```
+{
+	"AccessToken":"your-mapbox-access-token",
+	"MemoryCacheSize":500,
+	"FileCacheSize":3000,
+	"DefaultTimeout":30,
+	"AutoRefreshCache":false
+}
+```
+
 ### Installation
 
 A step by step series of examples that tell you how to get a development env
 running.
 
-Once the repo has been cloned. Open the project in Unity v2019.4.11f1.
+Once the repo has been cloned. Open the project in Unity v2019.4.12f1.
 
 ## Built With
 
