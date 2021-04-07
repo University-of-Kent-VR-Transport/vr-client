@@ -110,6 +110,8 @@ public class BusControllers : MonoBehaviour
 	private GameObject createBus(Bus bus)
 	{
         var position = Conversions.GeoToWorldPosition(bus.Location.Latitude, bus.Location.Longitude, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz();
+        position.y = 3;
+
 		var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
         var newBusInstance = Instantiate(busPrefab, position, rotation, this.GetComponent<Transform>());
@@ -122,7 +124,9 @@ public class BusControllers : MonoBehaviour
 
 	private void updateBus(Bus bus, GameObject busObject)
 	{
-		var position = new Vector3(bus.Location.Longitude, 0f, bus.Location.Latitude);
+        var position = Conversions.GeoToWorldPosition(bus.Location.Latitude, bus.Location.Longitude, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz();
+        position.y = 3;
+
 		var rotation = Quaternion.Euler(0, bus.Bearing, 0);
 
 		// TODO: pass the new location to the bus to set as the next way point with a final bearing
